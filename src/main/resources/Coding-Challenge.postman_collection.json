@@ -1,0 +1,448 @@
+{
+	"info": {
+		"_postman_id": "9d76e496-47c8-4130-958d-a61156d97245",
+		"name": "Coding-Challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "v1",
+			"item": [
+				{
+					"name": "Patent",
+					"item": [
+						{
+							"name": "getAllPatents",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/patents/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"patents",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getPatentByID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/patents/Patent1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"patents",
+										"Patent1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createPatent",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"publicationNumber\": \"Patent1\",\r\n    \"publicationDate\": \"2021-01-01\",\r\n    \"title\": \"Patent1 Title\",\r\n    \"description\": \"Patent1 Description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/patents/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"patents",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updatePatent",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"publicationNumber\": \"Patent1\",\r\n    \"publicationDate\": \"2021-02-02\",\r\n    \"title\": \"Modified Patent1 Title\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/patents/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"patents",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deletePatent",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/patents/Patent1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"patents",
+										"Patent1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Standard",
+					"item": [
+						{
+							"name": "getAllStandards",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/standards/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"standards",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getStandardByID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/standards/Standard1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"standards",
+										"Standard1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createStandard",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"standardId\": \"Standard1\",\r\n    \"name\": \"Standard1 Name\",\r\n    \"description\": \"Standard1 Description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/standards/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"standards",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateStandard",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"standardId\": \"Standard1\",\r\n    \"name\": \"Standard1 Name\",\r\n    \"description\": \"Modified Standard1 Description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/standards/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"standards",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteStandard",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/standards/Standard1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"standards",
+										"Standard1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Declaration",
+					"item": [
+						{
+							"name": "getAllDeclarations",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/declarations/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"declarations",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getDeclarationsByPatent",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/declarations/patent/Patent1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"declarations",
+										"patent",
+										"Patent1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getDeclarationsByStandard",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/declarations/standard/Standard1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"declarations",
+										"standard",
+										"Standard1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getDeclarationByID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/declarations/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"declarations",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getDeclarationByPatentAndStandard",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/declarations/patent/Patent1/standard/Standard1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"declarations",
+										"patent",
+										"Patent1",
+										"standard",
+										"Standard1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createDeclarations",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"publicationNumber\": \"Patent1\",\r\n    \"standardId\": \"Standard1\",\r\n    \"description\": \"Declaration1 Description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/declarations/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"declarations",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateDeclaration",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"publicationNumber\": \"Patent1\",\r\n    \"standardId\": \"Standard1\",\r\n    \"description\": \"Modified Declaration1 Description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/declarations/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"declarations",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteDeclaration",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/declarations/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"declarations",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
