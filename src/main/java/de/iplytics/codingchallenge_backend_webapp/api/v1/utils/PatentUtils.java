@@ -1,8 +1,6 @@
 package de.iplytics.codingchallenge_backend_webapp.api.v1.utils;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 
 import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.Patent;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.patent.PatentEmptyFieldException;
@@ -33,9 +31,10 @@ public class PatentUtils {
 			patent.setDescription("");
 		
 		// Add Creation Date
-		String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
+//		String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
 //		Date date2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse(date);
 		patent.setCreationDate(LocalDate.now());
+		patent.setModificationDate(null);
 	}
 
 	public static void checkPatentUpdatingRequiredFields(Patent patent) {
@@ -45,7 +44,6 @@ public class PatentUtils {
 		// Check Empty Field publicationNumber
 		if (publicationNumber == null || publicationNumber.isEmpty())
 			throw new PatentEmptyFieldException("publicationNumber", String.class);
-
 	}
 
 	public static void updateExistingFields(Patent oldPatent, Patent modifiedPatent) {

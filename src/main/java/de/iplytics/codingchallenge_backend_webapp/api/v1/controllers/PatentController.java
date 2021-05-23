@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.Patent;
+import de.iplytics.codingchallenge_backend_webapp.api.v1.responses.GlobalResponse;
+import de.iplytics.codingchallenge_backend_webapp.api.v1.responses.SuccessResponse;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.services.PatentService;
 import io.swagger.annotations.ApiOperation;
 
@@ -48,9 +50,9 @@ public class PatentController {
     
     @DeleteMapping("/{publicationNumber}")
     @ApiOperation(value = "Delete Patent")
-    public ResponseEntity<Void> deletePatent(@PathVariable("publicationNumber") String id){
-        patentService.deletePatent(id);
-        return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+    public ResponseEntity<GlobalResponse> deletePatent(@PathVariable("publicationNumber") String id){
+    	GlobalResponse response = patentService.deletePatent(id);
+        return new ResponseEntity<GlobalResponse>(response, HttpStatus.ACCEPTED);
     }
     
 }

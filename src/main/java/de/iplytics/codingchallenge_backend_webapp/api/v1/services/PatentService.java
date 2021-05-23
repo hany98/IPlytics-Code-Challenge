@@ -1,6 +1,5 @@
 package de.iplytics.codingchallenge_backend_webapp.api.v1.services;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +10,7 @@ import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.Patent;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.patent.PatentIDAlreadyExistsException;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.patent.PatentNotFoundException;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.repositories.PatentRepository;
+import de.iplytics.codingchallenge_backend_webapp.api.v1.responses.SuccessResponse;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.utils.PatentUtils;
 
 @Service
@@ -61,12 +61,14 @@ public class PatentService {
         		.orElseThrow(() -> new PatentNotFoundException(publicationNumber));
     }
     
-	public void deletePatent(String id) {
+	public SuccessResponse deletePatent(String patentId) {
 		// Check if Patent exists (by ID) and Fetch
-		Patent patent = getPatent(id);
+		Patent patent = getPatent(patentId);
 		
 		// Delete Patent By ID
 		patentRepository.delete(patent);
+		
+		return new SuccessResponse("Deleted Patent of ID: " + patentId);
 	}
 
 }

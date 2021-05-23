@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.Standard;
+import de.iplytics.codingchallenge_backend_webapp.api.v1.responses.GlobalResponse;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.services.StandardService;
 import io.swagger.annotations.ApiOperation;
 
@@ -28,14 +29,14 @@ public class StandardController {
     @PostMapping("/")
     @ApiOperation(value = "Create Standard")
     public ResponseEntity<Standard> createStandard(@RequestBody Standard standard){
-    	Standard createdStandard = standardService.createSingleStandard(standard);
+    	Standard createdStandard = standardService.createStandard(standard);
         return new ResponseEntity<Standard>(createdStandard, HttpStatus.CREATED);
     }
     
     @PutMapping("/")
     @ApiOperation(value = "Update Standard")
     public ResponseEntity<Standard> updateStandard(@RequestBody Standard standard){
-    	Standard updatedStandard = standardService.updateSingleStandard(standard);
+    	Standard updatedStandard = standardService.updateStandard(standard);
         return new ResponseEntity<Standard>(updatedStandard, HttpStatus.CREATED);
     }
     
@@ -48,9 +49,9 @@ public class StandardController {
     
     @DeleteMapping("/{standardId}")
     @ApiOperation(value = "Delete Standard")
-    public ResponseEntity<Void> deleteStandard(@PathVariable("standardId") String id){
-        standardService.deleteSingleStandard(id);
-        return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+    public ResponseEntity<GlobalResponse> deleteStandard(@PathVariable("standardId") String id){
+    	GlobalResponse response = standardService.deleteStandard(id);
+        return new ResponseEntity<GlobalResponse>(response, HttpStatus.ACCEPTED);
     }
     
 }

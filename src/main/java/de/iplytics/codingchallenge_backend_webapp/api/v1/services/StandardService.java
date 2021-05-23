@@ -10,6 +10,7 @@ import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.Standard;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.standard.StandardIDAlreadyExistsException;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.standard.StandardNotFoundException;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.repositories.StandardRepository;
+import de.iplytics.codingchallenge_backend_webapp.api.v1.responses.SuccessResponse;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.utils.StandardUtils;
 
 @Service
@@ -28,9 +29,9 @@ public class StandardService {
 		return standards;
 	}
 	
-	public Standard createSingleStandard(Standard standard) {
+	public Standard createStandard(Standard standard) {
 		// Parse and Check Empty Required Fields
-		StandardUtils.checkStandardRequiredFields(standard);
+		StandardUtils.checkStandardCreationRequiredFields(standard);
 		
 		// Check for Duplicate Standard ID
 		if(standardRepository.findById(standard.getStandardId()).isPresent()) 
@@ -40,15 +41,29 @@ public class StandardService {
 		return standardRepository.save(standard);
 	}
 
-	public Standard updateSingleStandard(Standard standard) {
+	public Standard updateStandard(Standard modifiedStandard) {
+//		// Parse and Check Empty Required Fields
+//		StandardUtils.checkStandardRequiredFields(standard);
+//		
+//		// Check if Standard exists (by ID)
+//		getStandard(standard.getStandardId());
+//		
+//		// Update Standard
+//		return standardRepository.save(standard);
+		
+		
+		
 		// Parse and Check Empty Required Fields
-		StandardUtils.checkStandardRequiredFields(standard);
+		StandardUtils.checkStandardUpdatingRequiredFields(modifiedStandard);
 		
 		// Check if Standard exists (by ID)
-		getStandard(standard.getStandardId());
+		Standard oldStandard = getStandard(modifiedStandard.getStandardId());
 		
-		// Update Standard
-		return standardRepository.save(standard);
+		// Update Old Patent
+		StandardUtils.updateExistingFields(oldStandard, modifiedStandard);
+		
+		// Update Patent
+		return standardRepository.save(oldStandard);
 	}
 	
 	public Standard getStandard(String standardId){
@@ -57,12 +72,14 @@ public class StandardService {
         		.orElseThrow(() -> new StandardNotFoundException(standardId));
     }
     
-	public void deleteSingleStandard(String id) {
+	public SuccessResponse deleteStandard(String standardId) {
 		// Check if Standard exists (by ID) and Fetch
-		Standard standard = getStandard(id);
+		Standard standard = getStandard(standardId);
 		
 		// Delete Standard By ID
 		standardRepository.delete(standard);
+		
+		return new SuccessResponse("Deleted Standard of ID: " + standardId);
 	}
     
 }
