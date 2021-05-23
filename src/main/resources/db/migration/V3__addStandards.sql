@@ -1,0 +1,2 @@
+INSERT INTO standard (standard_id, name, description) VALUES
+('ISO 3103', 'Standardized method for brewing tea', 'The method consists in extracting of soluble substances in dried tea leaf, contained in a porcelain or earthenware pot, by means of freshly boiling water, pouring of the liquor into a white porcelain or earthenware bowl, examination of the organoleptic properties of the infused leaf, and of the liquor with or without milk, or both.');
