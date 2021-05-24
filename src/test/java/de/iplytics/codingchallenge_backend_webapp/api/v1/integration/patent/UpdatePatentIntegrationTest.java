@@ -128,7 +128,9 @@ public class UpdatePatentIntegrationTest {
     			.description("Description of how to make cheese")
     			.build();
     	
-        given(patentService.updatePatent(any())).willThrow(new PatentEmptyFieldException("title", String.class));
+    	PatentEmptyFieldException patentEmptyFieldException = new PatentEmptyFieldException("title", String.class);
+    	
+        given(patentService.updatePatent(any())).willThrow(patentEmptyFieldException);
 
         String requestBody = new Gson().toJson(patentRequest);
         
@@ -137,7 +139,7 @@ public class UpdatePatentIntegrationTest {
                 .content(requestBody)
 				.characterEncoding("utf-8"))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("message", is("Missing Patent Field: title [java.lang.String].")));
+                .andExpect(jsonPath("message", is(patentEmptyFieldException.getMessage())));
     }
 
     @Test
@@ -151,7 +153,9 @@ public class UpdatePatentIntegrationTest {
     			.description("Description of how to make cheese")
     			.build();
     	
-        given(patentService.updatePatent(any())).willThrow(new PatentNotFoundException(patentId));
+    	PatentNotFoundException patentNotFoundException = new PatentNotFoundException(patentId);
+    	
+        given(patentService.updatePatent(any())).willThrow(patentNotFoundException);
 
         String requestBody = new Gson().toJson(patentRequest);
         
@@ -160,7 +164,7 @@ public class UpdatePatentIntegrationTest {
                 .content(requestBody)
 				.characterEncoding("utf-8"))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("message", is("Cannot Find Patent ID: " + patentId)));;
+                .andExpect(jsonPath("message", is(patentNotFoundException.getMessage())));
     }
     
 }

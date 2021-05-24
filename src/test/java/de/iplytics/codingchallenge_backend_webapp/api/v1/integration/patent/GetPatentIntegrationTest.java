@@ -10,12 +10,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import de.iplytics.codingchallenge_backend_webapp.api.v1.controllers.PatentController;
-import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.Patent;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.custom.response.PatentResponse;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.patent.PatentNotFoundException;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.services.PatentService;
-
-import java.time.LocalDate;
 
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -38,29 +35,35 @@ public class GetPatentIntegrationTest {
 
     @Test
     public void getPatent_valid_200_success() throws Exception {
-        PatentResponse patentResponse = Patent.builder()
-                .publicationDate(LocalDate.of(2019,1,1))
+    	String patentId = "DE1234A1";
+    	
+        PatentResponse patentResponse = PatentResponse.builder()
+                .publicationDate("2019-01-01")
                 .publicationNumber("DE1234A1")
                 .description("Description of how to make cheese")
                 .title("Method of making cheese")
-                .build()
-                .toPatentResponse();
+                .build();
 
         given(patentService.getPatentResponse(any())).willReturn(patentResponse);
 
-        mvc.perform(get(patentEndpoint + "DE1234A1")
+        mvc.perform(get(patentEndpoint + patentId)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("title", is("Method of making cheese")));
+                .andExpect(jsonPath("title", is(patentResponse.getTitle())));
     }
 
     @Test
     public void getPatent_invalidID_404_notFound() throws Exception {
-        given(patentService.getPatentResponse(any())).willThrow(new PatentNotFoundException());
+    	String patentId = "invalid";
+    	
+    	PatentNotFoundException patentNotFoundException = new PatentNotFoundException(patentId);
+    	
+        given(patentService.getPatentResponse(any())).willThrow(patentNotFoundException);
 
-        mvc.perform(get(patentEndpoint + "invalid")
+        mvc.perform(get(patentEndpoint + patentId)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("message", is(patentNotFoundException.getMessage())));
     }
     
 }
