@@ -32,6 +32,7 @@ public class PatentRequest {
 		} catch(DateTimeParseException e) {
 			publicationDateValue = null;
 		}
+		
 		return Patent.builder()
 				.publicationNumber(publicationNumber)
 				.publicationDate(publicationDateValue)

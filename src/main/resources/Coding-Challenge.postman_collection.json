@@ -87,7 +87,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"publicationNumber\": \"Patent1\",\r\n    \"publicationDate\": \"2021-02-02\",\r\n    \"title\": \"Modified Patent1 Title\"\r\n}",
+									"raw": "{\r\n    \"publicationNumber\": \"Patent1\",\r\n    \"publicationDate\": \"2021-02-02\",\r\n    \"title\": \"Modified Patent1 Title\",\r\n    \"description\": \"Patent1 Description\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -325,7 +325,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/declarations/1",
+									"raw": "http://localhost:8080/declarations/2",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -333,7 +333,7 @@
 									"port": "8080",
 									"path": [
 										"declarations",
-										"1"
+										"2"
 									]
 								}
 							},
@@ -398,7 +398,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"publicationNumber\": \"Patent1\",\r\n    \"standardId\": \"Standard1\",\r\n    \"description\": \"Modified Declaration1 Description\"\r\n}",
+									"raw": "{\r\n    \"publicationNumber\": \"Patent123\",\r\n    \"standardId\": \"Standard1\",\r\n    \"description\": \"Modified Declaration1 Description\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
