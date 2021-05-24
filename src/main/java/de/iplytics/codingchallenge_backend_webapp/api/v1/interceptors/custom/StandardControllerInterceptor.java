@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.standard.StandardEmptyFieldException;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.standard.StandardIDAlreadyExistsException;
+import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.standard.StandardLinkedToDeclarationsException;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.standard.StandardNotFoundException;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.responses.ExceptionResponse;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.utils.ControllerInterceptorUtils;
@@ -26,6 +27,11 @@ public class StandardControllerInterceptor {
 	@ExceptionHandler(StandardIDAlreadyExistsException.class)
     public ResponseEntity<ExceptionResponse> handleStandardAlreadyExistsException(StandardIDAlreadyExistsException standardAlreadyExistsException) {
 		return ControllerInterceptorUtils.handleExceptionResponse(logger, standardAlreadyExistsException, HttpStatus.CONFLICT);
+    }
+    
+    @ExceptionHandler(StandardLinkedToDeclarationsException.class)
+    public ResponseEntity<ExceptionResponse> handleStandardLinkedToDeclarationsException(StandardLinkedToDeclarationsException standardLinkedToDeclarationsException) {
+		return ControllerInterceptorUtils.handleExceptionResponse(logger, standardLinkedToDeclarationsException, HttpStatus.CONFLICT);
     }
 	
 	@ExceptionHandler(StandardEmptyFieldException.class)

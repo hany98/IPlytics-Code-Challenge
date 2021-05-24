@@ -6,8 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.Declaration;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.Patent;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.patent.PatentIDAlreadyExistsException;
+import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.patent.PatentLinkedToDeclarationsException;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.patent.PatentNotFoundException;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.repositories.PatentRepository;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.responses.SuccessResponse;
@@ -16,6 +18,9 @@ import de.iplytics.codingchallenge_backend_webapp.api.v1.utils.PatentUtils;
 @Service
 public class PatentServiceImpl implements PatentService {
 
+	@Autowired
+    DeclarationService declarationService;
+	
 	@Autowired
     private PatentRepository patentRepository;
 
@@ -62,6 +67,13 @@ public class PatentServiceImpl implements PatentService {
     }
     
 	public SuccessResponse deletePatent(String patentId) {
+		// Check Existing Declarations using this patentId
+		List<Declaration> declarations = declarationService.getDeclarationsByPatent(patentId);
+		
+		// Throw PatentLinkedToDeclarationException
+		if(declarations.size() > 0)
+			throw new PatentLinkedToDeclarationsException();
+		
 		// Check if Patent exists (by ID) and Fetch
 		Patent patent = getPatent(patentId);
 		

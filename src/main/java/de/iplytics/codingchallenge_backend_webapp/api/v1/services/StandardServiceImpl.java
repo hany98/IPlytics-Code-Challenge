@@ -6,8 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.Declaration;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.Standard;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.standard.StandardIDAlreadyExistsException;
+import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.standard.StandardLinkedToDeclarationsException;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.standard.StandardNotFoundException;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.repositories.StandardRepository;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.responses.SuccessResponse;
@@ -16,6 +18,9 @@ import de.iplytics.codingchallenge_backend_webapp.api.v1.utils.StandardUtils;
 @Service
 public class StandardServiceImpl implements StandardService {
 
+	@Autowired
+    DeclarationService declarationService;
+	
 	@Autowired
     private StandardRepository standardRepository;
 
@@ -62,6 +67,13 @@ public class StandardServiceImpl implements StandardService {
     }
     
 	public SuccessResponse deleteStandard(String standardId) {
+		// Check Existing Declarations using this patentId
+		List<Declaration> declarations = declarationService.getDeclarationsByStandard(standardId);
+		
+		// Throw PatentLinkedToDeclarationException
+		if(declarations.size() > 0)
+			throw new StandardLinkedToDeclarationsException();
+		
 		// Check if Standard exists (by ID) and Fetch
 		Standard standard = getStandard(standardId);
 		
