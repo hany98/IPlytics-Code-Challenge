@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -28,19 +28,19 @@ public class Declaration {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "publication_number")
     private Patent patent;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "standard_id")
 	private Standard standard;
 	
 	private String description;
 	
-	private LocalDate creationDate;
+	private LocalDateTime creationDate;
 	
-	private LocalDate modificationDate;
+	private LocalDateTime modificationDate;
 	
 	public DeclarationResponse toDeclarationResponse() {
 		return DeclarationResponse.builder()

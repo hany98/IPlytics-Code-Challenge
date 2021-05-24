@@ -1,6 +1,7 @@
 package de.iplytics.codingchallenge_backend_webapp.api.v1.utils;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.Patent;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.patent.PatentEmptyFieldException;
@@ -31,9 +32,7 @@ public class PatentUtils {
 			patent.setDescription("");
 		
 		// Add Creation Date
-//		String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
-//		Date date2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse(date);
-		patent.setCreationDate(LocalDate.now());
+		patent.setCreationDate(LocalDateTime.now());
 		patent.setModificationDate(null);
 	}
 
@@ -63,7 +62,7 @@ public class PatentUtils {
 			oldPatent.setDescription(description);
 
 		// Add Modification Date
-		oldPatent.setModificationDate(LocalDate.now());
+		oldPatent.setModificationDate(LocalDateTime.now());
 	}
 
 }

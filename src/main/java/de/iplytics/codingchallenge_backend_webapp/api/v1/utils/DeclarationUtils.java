@@ -1,11 +1,10 @@
 package de.iplytics.codingchallenge_backend_webapp.api.v1.utils;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.Declaration;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.custom.request.DeclarationRequest;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.declaration.DeclarationEmptyFieldException;
-import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.patent.PatentEmptyFieldException;
 
 public class DeclarationUtils {
 	
@@ -51,7 +50,7 @@ public class DeclarationUtils {
 			declaration.setDescription(description);
 
 		// Add Modification Date
-		declaration.setModificationDate(LocalDate.now());
+		declaration.setModificationDate(LocalDateTime.now());
 	}
 
 }

@@ -1,6 +1,6 @@
 package de.iplytics.codingchallenge_backend_webapp.api.v1.utils;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.Standard;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.standard.StandardEmptyFieldException;
@@ -26,7 +26,7 @@ public class StandardUtils {
 			standard.setDescription("");
 		
 		// Add Creation Date
-		standard.setCreationDate(LocalDate.now());
+		standard.setCreationDate(LocalDateTime.now());
 		
 		// Add Modification Date
 		standard.setModificationDate(null);
@@ -54,7 +54,7 @@ public class StandardUtils {
 			oldStandard.setDescription(description);
 
 		// Add Modification Date
-		oldStandard.setModificationDate(LocalDate.now());
+		oldStandard.setModificationDate(LocalDateTime.now());
 	}
 
 }

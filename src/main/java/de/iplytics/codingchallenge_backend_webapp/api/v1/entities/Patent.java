@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -26,8 +27,8 @@ public class Patent {
     
     private String description;
     
-    private LocalDate creationDate;
+    private LocalDateTime creationDate;
 	
-	private LocalDate modificationDate;
+	private LocalDateTime modificationDate;
     
 }

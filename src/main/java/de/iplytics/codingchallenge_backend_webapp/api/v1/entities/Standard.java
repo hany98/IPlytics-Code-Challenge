@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -24,7 +24,7 @@ public class Standard {
     
     private String description;
     
-    private LocalDate creationDate;
+    private LocalDateTime creationDate;
 	
-	private LocalDate modificationDate;
+	private LocalDateTime modificationDate;
 }

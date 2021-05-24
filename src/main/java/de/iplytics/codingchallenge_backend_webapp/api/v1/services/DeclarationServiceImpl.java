@@ -1,6 +1,6 @@
 package de.iplytics.codingchallenge_backend_webapp.api.v1.services;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +59,7 @@ public class DeclarationServiceImpl implements DeclarationService {
 										.patent(patent)
 										.standard(standard)
 										.description(declarationRequest.getDescription())
-										.creationDate(LocalDate.now())
+										.creationDate(LocalDateTime.now())
 										.modificationDate(null)
 										.build();
 		// Create Declaration

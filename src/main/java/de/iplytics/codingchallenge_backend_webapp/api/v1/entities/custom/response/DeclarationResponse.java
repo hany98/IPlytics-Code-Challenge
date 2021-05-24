@@ -1,6 +1,6 @@
 package de.iplytics.codingchallenge_backend_webapp.api.v1.entities.custom.response;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.Patent;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.Standard;
@@ -23,8 +23,8 @@ public class DeclarationResponse {
 	
 	private String description;
 	
-	private LocalDate creationDate;
+	private LocalDateTime creationDate;
 	
-	private LocalDate modificationDate;
+	private LocalDateTime modificationDate;
     
 }

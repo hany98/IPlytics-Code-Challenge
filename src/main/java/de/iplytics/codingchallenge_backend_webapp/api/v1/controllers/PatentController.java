@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.Patent;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.responses.GlobalResponse;
-import de.iplytics.codingchallenge_backend_webapp.api.v1.responses.SuccessResponse;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.services.PatentService;
 import io.swagger.annotations.ApiOperation;
 
