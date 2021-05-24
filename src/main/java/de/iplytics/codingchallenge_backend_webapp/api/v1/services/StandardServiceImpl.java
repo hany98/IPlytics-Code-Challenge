@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.Declaration;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.Standard;
+import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.custom.request.StandardRequest;
+import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.custom.response.StandardResponse;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.standard.StandardIDAlreadyExistsException;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.standard.StandardLinkedToDeclarationsException;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.standard.StandardNotFoundException;
@@ -24,17 +26,20 @@ public class StandardServiceImpl implements StandardService {
 	@Autowired
     private StandardRepository standardRepository;
 
-	public List<Standard> getAllStandards() {
+	public List<StandardResponse> getAllStandards() {
 		// Initiate a List to return the standards
-		List<Standard> standards = new ArrayList<Standard>();
+		List<StandardResponse> standards = new ArrayList<StandardResponse>();
 		
 		// Fetch all the Standards and fill them in the List
-		standardRepository.findAll().forEach(standard -> standards.add(standard));
+		standardRepository.findAll().forEach(standard -> standards.add(standard.toStandardResponse()));
 		
 		return standards;
 	}
 	
-	public Standard createStandard(Standard standard) {
+	public StandardResponse createStandard(StandardRequest standardRequest) {
+		// Convert to Entity
+		Standard standard = standardRequest.toStandardEntity();
+		
 		// Parse and Check Empty Required Fields
 		StandardUtils.checkStandardCreationRequiredFields(standard);
 		
@@ -43,22 +48,29 @@ public class StandardServiceImpl implements StandardService {
 			throw new StandardIDAlreadyExistsException(standard.getStandardId());
 		
 		// Create Standard
-		return standardRepository.save(standard);
+		return standardRepository.save(standard).toStandardResponse();
 	}
 
-	public Standard updateStandard(Standard modifiedStandard) {
+	public StandardResponse updateStandard(StandardRequest standardRequest) {
+		// Convert to Entity
+		Standard standard = standardRequest.toStandardEntity();
+		
 		// Parse and Check Empty Required Fields
-		StandardUtils.checkStandardUpdatingRequiredFields(modifiedStandard);
+		StandardUtils.checkStandardUpdatingRequiredFields(standard);
 		
 		// Check if Standard exists (by ID)
-		Standard oldStandard = getStandard(modifiedStandard.getStandardId());
+		Standard oldStandard = getStandard(standard.getStandardId());
 		
 		// Update Old Patent
-		StandardUtils.updateExistingFields(oldStandard, modifiedStandard);
+		StandardUtils.updateExistingFields(oldStandard, standard);
 		
 		// Update Patent
-		return standardRepository.save(oldStandard);
+		return standardRepository.save(oldStandard).toStandardResponse();
 	}
+	
+	public StandardResponse getStandardResponse(String standardId) {
+        return getStandard(standardId).toStandardResponse();
+    }
 	
 	public Standard getStandard(String standardId){
     	// Fetch Standard By ID with NOT_FOUND Error Handling

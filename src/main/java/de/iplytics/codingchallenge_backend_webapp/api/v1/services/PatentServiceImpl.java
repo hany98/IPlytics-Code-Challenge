@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.Declaration;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.Patent;
+import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.custom.request.PatentRequest;
+import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.custom.response.PatentResponse;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.patent.PatentIDAlreadyExistsException;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.patent.PatentLinkedToDeclarationsException;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.patent.PatentNotFoundException;
@@ -24,17 +26,20 @@ public class PatentServiceImpl implements PatentService {
 	@Autowired
     private PatentRepository patentRepository;
 
-	public List<Patent> getAllPatents() {
+	public List<PatentResponse> getAllPatents() {
 		// Initiate a List to return the patents
-		List<Patent> patents = new ArrayList<Patent>();
+		List<PatentResponse> patents = new ArrayList<PatentResponse>();
 		
 		// Fetch all the Patents and fill them in the List
-		patentRepository.findAll().forEach(patent -> patents.add(patent));
+		patentRepository.findAll().forEach(patent -> patents.add(patent.toPatentResponse()));
 		
 		return patents;
 	}
 	
-	public Patent createPatent(Patent patent) {
+	public PatentResponse createPatent(PatentRequest patentRequest) {
+		// Convert to Entity
+		Patent patent = patentRequest.toPatentEntity();
+		
 		// Parse and Check Empty Required Fields
 		PatentUtils.checkPatentCreationRequiredFields(patent);
 		
@@ -43,22 +48,29 @@ public class PatentServiceImpl implements PatentService {
 			throw new PatentIDAlreadyExistsException(patent.getPublicationNumber());
 		
 		// Create Patent
-		return patentRepository.save(patent);
+		return patentRepository.save(patent).toPatentResponse();
 	}
 
-	public Patent updatePatent(Patent modifiedPatent) {
+	public PatentResponse updatePatent(PatentRequest patentRequest) {
+		// Convert to Entity
+		Patent patent = patentRequest.toPatentEntity();
+		
 		// Parse and Check Empty Required Fields
-		PatentUtils.checkPatentUpdatingRequiredFields(modifiedPatent);
+		PatentUtils.checkPatentUpdatingRequiredFields(patent);
 		
 		// Check if Patent exists (by ID)
-		Patent oldPatent = getPatent(modifiedPatent.getPublicationNumber());
+		Patent oldPatent = getPatent(patent.getPublicationNumber());
 		
 		// Update Old Patent
-		PatentUtils.updateExistingFields(oldPatent, modifiedPatent);
+		PatentUtils.updateExistingFields(oldPatent, patent);
 		
 		// Update Patent
-		return patentRepository.save(oldPatent);
+		return patentRepository.save(oldPatent).toPatentResponse();
 	}
+	
+	public PatentResponse getPatentResponse(String publicationNumber) {
+        return getPatent(publicationNumber).toPatentResponse();
+    }
 	
     public Patent getPatent(String publicationNumber) {
     	// Fetch Patent By ID with NOT_FOUND Error Handling

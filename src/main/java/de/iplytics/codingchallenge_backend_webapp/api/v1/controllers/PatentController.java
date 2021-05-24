@@ -7,7 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.Patent;
+import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.custom.request.PatentRequest;
+import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.custom.response.PatentResponse;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.responses.GlobalResponse;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.services.PatentService;
 import io.swagger.annotations.ApiOperation;
@@ -21,36 +22,36 @@ public class PatentController {
     
     @GetMapping("/")
     @ApiOperation(value = "Get All Patents")
-    public ResponseEntity<List<Patent>> getAllPatents(){
-    	List<Patent> patents = patentService.getAllPatents();
-        return new ResponseEntity<List<Patent>>(patents, HttpStatus.OK);
+    public ResponseEntity<List<PatentResponse>> getAllPatents(){
+    	List<PatentResponse> patents = patentService.getAllPatents();
+        return new ResponseEntity<List<PatentResponse>>(patents, HttpStatus.OK);
     }
 
     @PostMapping("/")
     @ApiOperation(value = "Create Patent")
-    public ResponseEntity<Patent> createPatent(@RequestBody Patent patent){
-    	Patent createdPatent = patentService.createPatent(patent);
-        return new ResponseEntity<Patent>(createdPatent, HttpStatus.CREATED);
+    public ResponseEntity<PatentResponse> createPatent(@RequestBody PatentRequest patentRequest){
+    	PatentResponse patentResponse = patentService.createPatent(patentRequest);
+        return new ResponseEntity<PatentResponse>(patentResponse, HttpStatus.CREATED);
     }
     
     @PutMapping("/")
     @ApiOperation(value = "Update Patent")
-    public ResponseEntity<Patent> updatePatent(@RequestBody Patent patent){
-    	Patent updatedPatent = patentService.updatePatent(patent);
-        return new ResponseEntity<Patent>(updatedPatent, HttpStatus.CREATED);
+    public ResponseEntity<PatentResponse> updatePatent(@RequestBody PatentRequest patentRequest){
+    	PatentResponse patentResponse = patentService.updatePatent(patentRequest);
+        return new ResponseEntity<PatentResponse>(patentResponse, HttpStatus.CREATED);
     }
     
     @GetMapping("/{publicationNumber}")
     @ApiOperation(value = "Get Patent By ID")
-    public ResponseEntity<Patent> getPatent(@PathVariable("publicationNumber") String id){
-    	Patent patent = patentService.getPatent(id);
-        return new ResponseEntity<Patent>(patent, HttpStatus.OK);
+    public ResponseEntity<PatentResponse> getPatent(@PathVariable("publicationNumber") String publicationNumber){
+    	PatentResponse patentResponse = patentService.getPatentResponse(publicationNumber);
+        return new ResponseEntity<PatentResponse>(patentResponse, HttpStatus.OK);
     }
     
     @DeleteMapping("/{publicationNumber}")
     @ApiOperation(value = "Delete Patent")
-    public ResponseEntity<GlobalResponse> deletePatent(@PathVariable("publicationNumber") String id){
-    	GlobalResponse response = patentService.deletePatent(id);
+    public ResponseEntity<GlobalResponse> deletePatent(@PathVariable("publicationNumber") String publicationNumber){
+    	GlobalResponse response = patentService.deletePatent(publicationNumber);
         return new ResponseEntity<GlobalResponse>(response, HttpStatus.ACCEPTED);
     }
     

@@ -11,20 +11,28 @@ import de.iplytics.codingchallenge_backend_webapp.api.v1.responses.SuccessRespon
 
 public interface DeclarationService {
 
-	public List<Declaration> getAllDeclarations();
+	public List<DeclarationResponse> getAllDeclarations();
     
 	public DeclarationResponse createDeclaration(DeclarationRequest declarationRequest);
 	
 	public DeclarationResponse updateDeclaration(DeclarationRequest declarationRequest);
 	
+	public DeclarationResponse getDeclarationResponseById(int id);
+	
 	public Declaration getDeclarationById(int id);
 	
 	public Declaration getDeclarationByPatentAndStandard(Patent patent, Standard standard);
 	
+	public List<DeclarationResponse> getDeclarationsResponseByPatent(String publicationNumber);
+	
 	public List<Declaration> getDeclarationsByPatent(String publicationNumber);
 
+	public List<DeclarationResponse> getDeclarationsResponseByStandard(String standardId);
+	
 	public List<Declaration> getDeclarationsByStandard(String standardId);
 
+	public DeclarationResponse getDeclarationResponseByPatentAndStandard(String publicationNumber, String standardId);
+	
 	public Declaration getDeclarationByPatentAndStandard(String publicationNumber, String standardId);
 	
 	public SuccessResponse deleteDeclarationById(int declarationId);

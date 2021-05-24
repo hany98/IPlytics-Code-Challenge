@@ -30,12 +30,12 @@ public class DeclarationServiceImpl implements DeclarationService {
 	@Autowired
     private DeclarationRepository declarationRepository;
 
-	public List<Declaration> getAllDeclarations() {
+	public List<DeclarationResponse> getAllDeclarations() {
 		// Initiate a List to return the declarations
-		List<Declaration> declarations = new ArrayList<Declaration>();
+		List<DeclarationResponse> declarations = new ArrayList<DeclarationResponse>();
 		
 		// Fetch all the Declarations and fill them in the List
-		declarationRepository.findAll().forEach(declaration -> declarations.add(declaration));
+		declarationRepository.findAll().forEach(declaration -> declarations.add(declaration.toDeclarationResponse()));
 		
 		return declarations;
 	}
@@ -86,6 +86,10 @@ public class DeclarationServiceImpl implements DeclarationService {
 		return declarationRepository.save(declaration).toDeclarationResponse();
 	}
 	
+	public DeclarationResponse getDeclarationResponseById(int id) {
+		return getDeclarationById(id).toDeclarationResponse();
+    }
+	
 	public Declaration getDeclarationById(int id) {
     	// Fetch Declaration By ID with NOT_FOUND Error Handling
         return declarationRepository.findById(id)
@@ -98,6 +102,16 @@ public class DeclarationServiceImpl implements DeclarationService {
         		.orElseThrow(() -> new DeclarationNotFoundException(patent, standard));
     }
 	
+	public List<DeclarationResponse> getDeclarationsResponseByPatent(String publicationNumber) {
+		// Initiate a List to return the declarations
+		List<DeclarationResponse> declarations = new ArrayList<DeclarationResponse>();
+		
+		// Fetch from DB
+		getDeclarationsByPatent(publicationNumber).forEach(declaration -> declarations.add(declaration.toDeclarationResponse()));
+		
+		return declarations;
+	}
+	
 	public List<Declaration> getDeclarationsByPatent(String publicationNumber) {
 		// Validate Patent
 		Patent patent = patentService.getPatent(publicationNumber);
@@ -106,6 +120,16 @@ public class DeclarationServiceImpl implements DeclarationService {
 		return declarationRepository.findByPatent(patent);
 	}
 
+	public List<DeclarationResponse> getDeclarationsResponseByStandard(String standardId) {
+		// Initiate a List to return the declarations
+		List<DeclarationResponse> declarations = new ArrayList<DeclarationResponse>();
+		
+		// Fetch from DB
+		getDeclarationsByStandard(standardId).forEach(declaration -> declarations.add(declaration.toDeclarationResponse()));
+		
+		return declarations;
+	}
+	
 	public List<Declaration> getDeclarationsByStandard(String standardId) {
 		// Validate Standard
 		Standard standard = standardService.getStandard(standardId);
@@ -114,6 +138,10 @@ public class DeclarationServiceImpl implements DeclarationService {
 		return declarationRepository.findByStandard(standard);
 	}
 
+	public DeclarationResponse getDeclarationResponseByPatentAndStandard(String publicationNumber, String standardId) {
+		return getDeclarationByPatentAndStandard(publicationNumber, standardId).toDeclarationResponse();
+	}
+	
 	public Declaration getDeclarationByPatentAndStandard(String publicationNumber, String standardId) {
 		// Validate Patent
 		Patent patent = patentService.getPatent(publicationNumber);

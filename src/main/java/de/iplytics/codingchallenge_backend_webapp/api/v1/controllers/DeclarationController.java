@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.Declaration;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.custom.request.DeclarationRequest;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.custom.response.DeclarationResponse;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.responses.GlobalResponse;
@@ -27,9 +26,9 @@ public class DeclarationController {
 
     @GetMapping("/")
     @ApiOperation(value = "Get All Declarations")
-    public ResponseEntity<List<Declaration>> getAllDeclarations(){
-    	List<Declaration> declarations = declarationService.getAllDeclarations();
-        return new ResponseEntity<List<Declaration>>(declarations, HttpStatus.OK);
+    public ResponseEntity<List<DeclarationResponse>> getAllDeclarations(){
+    	List<DeclarationResponse> declarations = declarationService.getAllDeclarations();
+        return new ResponseEntity<List<DeclarationResponse>>(declarations, HttpStatus.OK);
     }
 
     @PostMapping("/")
@@ -48,30 +47,30 @@ public class DeclarationController {
     
     @GetMapping("/{id}")
     @ApiOperation(value = "Get Declaration by ID")
-    public ResponseEntity<Declaration> getDeclarationById(@PathVariable("id") int id){
-    	Declaration declaration = declarationService.getDeclarationById(id);
-        return new ResponseEntity<Declaration>(declaration, HttpStatus.OK);
+    public ResponseEntity<DeclarationResponse> getDeclarationById(@PathVariable("id") int id){
+    	DeclarationResponse declarationResponse = declarationService.getDeclarationResponseById(id);
+        return new ResponseEntity<DeclarationResponse>(declarationResponse, HttpStatus.OK);
     }
     
     @GetMapping("/patent/{publicationNumber}")
     @ApiOperation(value = "Get Declaration by Patent")
-    public ResponseEntity<List<Declaration>> getDeclarationByPatent(@PathVariable("publicationNumber") String publicationNumber){
-    	List<Declaration> declarations = declarationService.getDeclarationsByPatent(publicationNumber);
-        return new ResponseEntity<List<Declaration>>(declarations, HttpStatus.OK);
+    public ResponseEntity<List<DeclarationResponse>> getDeclarationByPatent(@PathVariable("publicationNumber") String publicationNumber){
+    	List<DeclarationResponse> declarations = declarationService.getDeclarationsResponseByPatent(publicationNumber);
+        return new ResponseEntity<List<DeclarationResponse>>(declarations, HttpStatus.OK);
     }
     
     @GetMapping("/standard/{standardId}")
     @ApiOperation(value = "Get Declaration by Standard")
-    public ResponseEntity<List<Declaration>> getDeclarationByStandard(@PathVariable("standardId") String standardId){
-    	List<Declaration> declarations = declarationService.getDeclarationsByStandard(standardId);
-        return new ResponseEntity<List<Declaration>>(declarations, HttpStatus.OK);
+    public ResponseEntity<List<DeclarationResponse>> getDeclarationByStandard(@PathVariable("standardId") String standardId){
+    	List<DeclarationResponse> declarations = declarationService.getDeclarationsResponseByStandard(standardId);
+        return new ResponseEntity<List<DeclarationResponse>>(declarations, HttpStatus.OK);
     }
     
     @GetMapping("/patent/{publicationNumber}/standard/{standardId}")
     @ApiOperation(value = "Get Declaration by Patent and Standard")
-    public ResponseEntity<Declaration> getDeclarationByPatentAndStandard(@PathVariable("publicationNumber") String publicationNumber, @PathVariable("standardId") String standardId){
-    	Declaration declaration = declarationService.getDeclarationByPatentAndStandard(publicationNumber, standardId);
-        return new ResponseEntity<Declaration>(declaration, HttpStatus.OK);
+    public ResponseEntity<DeclarationResponse> getDeclarationByPatentAndStandard(@PathVariable("publicationNumber") String publicationNumber, @PathVariable("standardId") String standardId){
+    	DeclarationResponse declarationResponse = declarationService.getDeclarationResponseByPatentAndStandard(publicationNumber, standardId);
+        return new ResponseEntity<DeclarationResponse>(declarationResponse, HttpStatus.OK);
     }
     
     @DeleteMapping("/{id}")
