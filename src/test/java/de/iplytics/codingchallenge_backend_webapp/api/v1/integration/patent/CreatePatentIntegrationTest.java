@@ -15,7 +15,7 @@ import de.iplytics.codingchallenge_backend_webapp.api.v1.controllers.PatentContr
 import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.custom.request.PatentRequest;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.custom.response.PatentResponse;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.patent.PatentEmptyFieldException;
-import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.patent.PatentNotFoundException;
+import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.patent.PatentIDAlreadyExistsException;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.services.PatentService;
 
 import java.time.LocalDate;
@@ -93,6 +93,32 @@ public class CreatePatentIntegrationTest {
     }
     
     @Test
+    public void updatePatent_invalidPublicationDate_201_updated() throws Exception {
+    	PatentRequest patentRequest = PatentRequest.builder()
+                .publicationNumber("DE1234A1")
+                .publicationDate("invalid")
+                .description("Description of how to make cheese")
+                .title("Method of making cheese")
+                .build();
+        
+        PatentResponse patentResponse = patentRequest.toPatentEntity().toPatentResponse();
+
+        given(patentService.createPatent(any())).willReturn(patentResponse);
+
+        String requestBody = new Gson().toJson(patentRequest);
+        
+        mvc.perform(post(patentEndpoint)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+                .characterEncoding("utf-8"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("publicationDate", is(patentResponse.getPublicationDate())))
+                .andExpect(jsonPath("publicationNumber", is(patentResponse.getPublicationNumber())))
+                .andExpect(jsonPath("description", is(patentResponse.getDescription())))
+        		.andExpect(jsonPath("title", is(patentResponse.getTitle())));
+    }
+    
+    @Test
     public void createPatent_missingRequiredField_400_badRequest() throws Exception {
     	// Missing Required Field Title
     	PatentRequest patentRequest = PatentRequest.builder()
@@ -117,19 +143,17 @@ public class CreatePatentIntegrationTest {
     }
 
     @Test
-    public void createPatent_invalidID_404_notFound() throws Exception {
-    	String patentId = "invalid";
-    	
+    public void createPatent_duplicateId_409_conflict() throws Exception {
     	PatentRequest patentRequest = PatentRequest.builder()
-                .publicationNumber(patentId)
+                .publicationNumber("DE1234A1")
                 .publicationDate(LocalDate.of(2019,1,1).toString())
                 .description("Description of how to make cheese")
                 .title("Method of making cheese")
                 .build();
         
-    	PatentNotFoundException patentNotFoundException = new PatentNotFoundException(patentId);
+    	PatentIDAlreadyExistsException patentIDAlreadyExistsException = new PatentIDAlreadyExistsException(patentRequest.getPublicationNumber());
     	
-        given(patentService.createPatent(any())).willThrow(patentNotFoundException);
+        given(patentService.createPatent(any())).willThrow(patentIDAlreadyExistsException);
 
         String requestBody = new Gson().toJson(patentRequest);
         
@@ -137,8 +161,8 @@ public class CreatePatentIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
 				.characterEncoding("utf-8"))
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("message", is(patentNotFoundException.getMessage())));
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("message", is(patentIDAlreadyExistsException.getMessage())));
     }
     
 }

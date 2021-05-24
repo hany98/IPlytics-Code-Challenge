@@ -15,7 +15,7 @@ import de.iplytics.codingchallenge_backend_webapp.api.v1.controllers.StandardCon
 import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.custom.request.StandardRequest;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.custom.response.StandardResponse;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.standard.StandardEmptyFieldException;
-import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.standard.StandardNotFoundException;
+import de.iplytics.codingchallenge_backend_webapp.api.v1.exceptions.standard.StandardIDAlreadyExistsException;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.services.StandardService;
 
 import static org.hamcrest.core.Is.is;
@@ -88,14 +88,14 @@ public class CreateStandardIntegrationTest {
     
     @Test
     public void createStandard_missingRequiredField_400_badRequest() throws Exception {
-    	// Missing Required Field Title
+    	// Missing Required Field Name
     	StandardRequest standardRequest = StandardRequest.builder()
                 .standardId("Standard1")
-                .name("Standard1 Name")
+                .name("")
                 .description("Standard1 Description")
                 .build();
         
-    	StandardEmptyFieldException standardEmptyFieldException = new StandardEmptyFieldException("title", String.class);
+    	StandardEmptyFieldException standardEmptyFieldException = new StandardEmptyFieldException("name", String.class);
     	
         given(standardService.createStandard(any())).willThrow(standardEmptyFieldException);
 
@@ -110,17 +110,16 @@ public class CreateStandardIntegrationTest {
     }
 
     @Test
-    public void createStandard_invalidID_404_notFound() throws Exception {
-    	String standardId = "invalid";
-    	
+    public void createStandard_duplicateId_409_conflict() throws Exception {
     	StandardRequest standardRequest = StandardRequest.builder()
-                .standardId(standardId)
+                .standardId("Standard1")
                 .name("Standard1 Name")
                 .description("Standard1 Description")
                 .build();
         
-    	StandardNotFoundException standardNotFoundException = new StandardNotFoundException(standardId);
-        given(standardService.createStandard(any())).willThrow(standardNotFoundException);
+    	StandardIDAlreadyExistsException standardIDAlreadyExistsException = new StandardIDAlreadyExistsException(standardRequest.getStandardId());
+    	
+        given(standardService.createStandard(any())).willThrow(standardIDAlreadyExistsException);
 
         String requestBody = new Gson().toJson(standardRequest);
         
@@ -128,8 +127,8 @@ public class CreateStandardIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
 				.characterEncoding("utf-8"))
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("message", is(standardNotFoundException.getMessage())));
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("message", is(standardIDAlreadyExistsException.getMessage())));
     }
     
 }
