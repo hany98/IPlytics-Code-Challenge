@@ -36,7 +36,7 @@ public class Patent {
 	public PatentResponse toPatentResponse() {
 		return PatentResponse.builder()
 				.publicationNumber(publicationNumber)
-				.publicationDate(publicationDate.toString())
+				.publicationDate(publicationDate == null ? "" : publicationDate.toString())
 				.title(title)
 				.description(description)
 				.creationDate(creationDate)

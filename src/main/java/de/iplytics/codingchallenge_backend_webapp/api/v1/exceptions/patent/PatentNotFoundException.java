@@ -8,8 +8,8 @@ public class PatentNotFoundException extends RuntimeException {
 		super();
 	}
 	
-	public PatentNotFoundException(String patentID) {
-		super("Cannot Find Patent ID: " + patentID);
+	public PatentNotFoundException(String patentId) {
+		super("Cannot Find Patent ID: " + patentId);
 	}
 	
 }

@@ -32,7 +32,7 @@ public class DeclarationRequest {
 		return Declaration.builder()
 				.patent(patentService.getPatent(publicationNumber))
 				.standard(standardService.getStandard(standardId))
-				.description(description)
+				.description(description == null ? "" : description)
 				.build();
 	}
     

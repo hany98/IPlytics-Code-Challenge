@@ -11,8 +11,8 @@ public class DeclarationNotFoundException extends RuntimeException {
 		super();
 	}
 	
-	public DeclarationNotFoundException(int declarationID) {
-		super("Cannot Find Declaration ID: " + declarationID);
+	public DeclarationNotFoundException(int declarationId) {
+		super("Cannot Find Declaration ID: " + declarationId);
 	}
 	
 	public DeclarationNotFoundException(Patent patent, Standard standard) {

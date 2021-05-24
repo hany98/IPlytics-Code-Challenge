@@ -13,6 +13,7 @@ import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.custom.request
 import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.custom.response.DeclarationResponse;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.responses.GlobalResponse;
 import de.iplytics.codingchallenge_backend_webapp.api.v1.services.DeclarationService;
+import de.iplytics.codingchallenge_backend_webapp.api.v1.utils.Constants;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
@@ -28,6 +29,7 @@ public class DeclarationController {
     @ApiOperation(value = "Get All Declarations")
     public ResponseEntity<List<DeclarationResponse>> getAllDeclarations(){
     	List<DeclarationResponse> declarations = declarationService.getAllDeclarations();
+    	if(Constants.DEBUG) logger.debug("getAllDeclarations: " + declarations.toString());
         return new ResponseEntity<List<DeclarationResponse>>(declarations, HttpStatus.OK);
     }
 
@@ -35,6 +37,7 @@ public class DeclarationController {
     @ApiOperation(value = "Create Declaration")
     public ResponseEntity<DeclarationResponse> createDeclaration(@RequestBody DeclarationRequest declarationRequest){
     	DeclarationResponse declarationResponse = declarationService.createDeclaration(declarationRequest);
+    	if(Constants.DEBUG) logger.debug("createDeclaration: " + declarationResponse.toString());
         return new ResponseEntity<DeclarationResponse>(declarationResponse, HttpStatus.CREATED);
     }
     
@@ -42,6 +45,7 @@ public class DeclarationController {
     @ApiOperation(value = "Update Declaration")
     public ResponseEntity<DeclarationResponse> updateDeclaration(@RequestBody DeclarationRequest declarationRequest){
     	DeclarationResponse declarationResponse = declarationService.updateDeclaration(declarationRequest);
+    	if(Constants.DEBUG) logger.debug("updateDeclaration: " + declarationResponse.toString());
         return new ResponseEntity<DeclarationResponse>(declarationResponse, HttpStatus.CREATED);
     }
     
@@ -49,6 +53,7 @@ public class DeclarationController {
     @ApiOperation(value = "Get Declaration by ID")
     public ResponseEntity<DeclarationResponse> getDeclarationById(@PathVariable("id") int id){
     	DeclarationResponse declarationResponse = declarationService.getDeclarationResponseById(id);
+    	if(Constants.DEBUG) logger.debug("getDeclarationById: " + declarationResponse.toString());
         return new ResponseEntity<DeclarationResponse>(declarationResponse, HttpStatus.OK);
     }
     
@@ -56,27 +61,33 @@ public class DeclarationController {
     @ApiOperation(value = "Get Declaration by Patent")
     public ResponseEntity<List<DeclarationResponse>> getDeclarationByPatent(@PathVariable("publicationNumber") String publicationNumber){
     	List<DeclarationResponse> declarations = declarationService.getDeclarationsResponseByPatent(publicationNumber);
-        return new ResponseEntity<List<DeclarationResponse>>(declarations, HttpStatus.OK);
+    	if(Constants.DEBUG) logger.debug("getDeclarationByPatent: " + declarations.toString());
+    	return new ResponseEntity<List<DeclarationResponse>>(declarations, HttpStatus.OK);
     }
     
     @GetMapping("/standard/{standardId}")
     @ApiOperation(value = "Get Declaration by Standard")
     public ResponseEntity<List<DeclarationResponse>> getDeclarationByStandard(@PathVariable("standardId") String standardId){
     	List<DeclarationResponse> declarations = declarationService.getDeclarationsResponseByStandard(standardId);
-        return new ResponseEntity<List<DeclarationResponse>>(declarations, HttpStatus.OK);
+    	if(Constants.DEBUG) logger.debug("getDeclarationByStandard: " + declarations.toString());
+    	return new ResponseEntity<List<DeclarationResponse>>(declarations, HttpStatus.OK);
     }
     
     @GetMapping("/patent/{publicationNumber}/standard/{standardId}")
     @ApiOperation(value = "Get Declaration by Patent and Standard")
     public ResponseEntity<DeclarationResponse> getDeclarationByPatentAndStandard(@PathVariable("publicationNumber") String publicationNumber, @PathVariable("standardId") String standardId){
     	DeclarationResponse declarationResponse = declarationService.getDeclarationResponseByPatentAndStandard(publicationNumber, standardId);
-        return new ResponseEntity<DeclarationResponse>(declarationResponse, HttpStatus.OK);
+    	if(Constants.DEBUG) logger.debug("getDeclarationByPatentAndStandard: " + declarationResponse.toString());
+    	return new ResponseEntity<DeclarationResponse>(declarationResponse, HttpStatus.OK);
     }
     
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete Declaration")
     public ResponseEntity<GlobalResponse> deleteDeclarationById(@PathVariable("id") int id){
     	GlobalResponse response = declarationService.deleteDeclarationById(id);
+    	response.setStatus(HttpStatus.ACCEPTED.name());
+    	response.setStatusCode(HttpStatus.ACCEPTED.value());
+    	if(Constants.DEBUG) logger.debug("deleteDeclarationById: " + response.toString());
         return new ResponseEntity<GlobalResponse>(response, HttpStatus.ACCEPTED);
     }
     

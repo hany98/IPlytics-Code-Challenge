@@ -1,6 +1,7 @@
 package de.iplytics.codingchallenge_backend_webapp.api.v1.entities.custom.request;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 import de.iplytics.codingchallenge_backend_webapp.api.v1.entities.Patent;
 import lombok.AllArgsConstructor;
@@ -23,11 +24,19 @@ public class PatentRequest {
     private String description;
 
 	public Patent toPatentEntity() {
+		LocalDate publicationDateValue = null;
+		
+		try {
+			if(publicationDate != null)
+				publicationDateValue = LocalDate.parse(publicationDate);
+		} catch(DateTimeParseException e) {
+			publicationDateValue = null;
+		}
 		return Patent.builder()
 				.publicationNumber(publicationNumber)
-				.publicationDate(publicationDate == null ? null : LocalDate.parse(publicationDate))
+				.publicationDate(publicationDateValue)
 				.title(title)
-				.description(description)
+				.description(description == null ? "" : description)
 				.build();
 	}
     
